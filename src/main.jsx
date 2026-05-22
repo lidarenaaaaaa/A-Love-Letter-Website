@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Feather, Mail, NotebookPen, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ArrowRight, BookOpen, Feather, Mail, NotebookPen, Sparkles } from 'lucide-react';
 import './styles.css';
 
 const navItems = [
@@ -12,38 +12,42 @@ const navItems = [
   { id: 'contact', label: '联系', en: 'Contact' },
 ];
 
-const cards = [
+const entryCards = [
   {
     id: 'about',
     eyebrow: '01 / About Me',
     title: '个人手札',
-    text: '我用设计、代码与影像，记录灵感与日常。',
+    text: '关于我与创作的起点、方法和生活方式。',
     action: 'Read more',
     icon: Feather,
+    drift: 'card-a',
   },
   {
     id: 'projects',
     eyebrow: '02 / Projects',
     title: '作品档案',
-    text: '网页实验、视觉叙事与创意编码。',
+    text: '精选作品与案例展示，探索想法落地的过程。',
     action: 'View projects',
     icon: Sparkles,
+    drift: 'card-b',
   },
   {
     id: 'journal',
     eyebrow: '03 / Journal',
     title: '日常来信',
-    text: '写给创作、生活和记忆的片段。',
+    text: '记录灵感与思考的日常，文字、影像与随笔。',
     action: 'Read journal',
-    icon: NotebookPen,
+    icon: BookOpen,
+    drift: 'card-c',
   },
   {
     id: 'contact',
     eyebrow: '04 / Contact',
     title: '寄出一封信',
-    text: '有想法或合作意向，期待与你交流。',
+    text: '有想法或合作意向？期待与你交流。',
     action: 'Say hello',
     icon: Mail,
+    drift: 'card-d',
   },
 ];
 
@@ -120,7 +124,20 @@ function Header() {
           </button>
         ))}
       </nav>
+      <span className="header-mark">写给日常的情书</span>
     </header>
+  );
+}
+
+function GoldOrnaments() {
+  return (
+    <div className="gold-ornaments" aria-hidden="true">
+      <span className="ornament o1" />
+      <span className="ornament o2" />
+      <span className="ornament o3" />
+      <span className="cloud-line c1" />
+      <span className="cloud-line c2" />
+    </div>
   );
 }
 
@@ -132,7 +149,12 @@ function FlowerCluster() {
       <span className="petal p3" />
       <span className="petal p4" />
       <span className="petal p5" />
+      <span className="petal p6" />
+      <i className="stamen s1" />
+      <i className="stamen s2" />
       <i className="stem" />
+      <i className="leaf l1" />
+      <i className="leaf l2" />
     </div>
   );
 }
@@ -140,16 +162,20 @@ function FlowerCluster() {
 function EnvelopeStage() {
   return (
     <motion.div className="envelope-stage" initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div className="letter-back" animate={{ y: [0, -7, 0] }} transition={{ duration: 8, repeat: Infinity }} />
       <FlowerCluster />
       <motion.div
         className="ribbon"
-        animate={{ rotate: [0, -2, 2, 0], y: [0, -3, 2, 0] }}
+        animate={{ rotate: [-7, -9, -5, -7], y: [0, -3, 2, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div className="envelope" whileHover={{ y: -8, rotate: -1 }}>
+      <motion.div className="envelope" whileHover={{ y: -8, rotate: -2 }}>
         <div className="wax-seal">L</div>
         <span className="stamp">A LITTLE<br />LOVE</span>
+        <span className="envelope-lines">for visitors<br />and little moments</span>
       </motion.div>
+      <div className="petal-fall one" />
+      <div className="petal-fall two" />
       <div className="mini-person person-reader" />
       <div className="mini-person person-photo" />
     </motion.div>
@@ -161,15 +187,16 @@ function PaperCard({ card, index }) {
 
   return (
     <motion.article
-      className="paper-card"
+      className={`paper-card ${card.drift}`}
       initial={{ opacity: 0, y: 24, rotate: index % 2 ? 1 : -1 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.35 }}
       transition={{ delay: index * 0.08 }}
-      whileHover={{ y: -10, rotate: 0 }}
+      whileHover={{ y: -12, rotate: 0 }}
       onClick={() => scrollToSection(card.id)}
     >
-      <Icon size={22} />
+      <span className="pin" />
+      <Icon size={23} />
       <small>{card.eyebrow}</small>
       <h3>{card.title}</h3>
       <p>{card.text}</p>
@@ -193,6 +220,7 @@ function SectionTitle({ number, eyebrow, title, children }) {
 function Hero() {
   return (
     <section className="hero section" id="home">
+      <GoldOrnaments />
       <div className="hero-copy">
         <motion.p className="kicker" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           一封写给访客的个人来信
@@ -201,11 +229,12 @@ function Hero() {
           LIEGG 的<br />个人网站
         </motion.h1>
         <motion.p className="subtitle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.22 }}>
-          A personal web story inspired by little letters, memory, and quiet love.
+          A personal web story
         </motion.p>
         <p className="role">设计师 / 开发者 / 视觉创作者</p>
         <p className="intro">
-          我用代码搭建想象，用图像记录感受，在日常的细微里寻找灵感的形状。
+          我用代码搭建想象，用图像记录感受，在日常的细微里寻找灵感的形状，
+          把热爱变成持续创造的理由。
         </p>
         <div className="hero-actions">
           <button onClick={() => scrollToSection('projects')}>翻阅作品</button>
@@ -332,7 +361,7 @@ function App() {
       <VerticalNav />
       <Hero />
       <section className="cards-strip" aria-label="Site sections">
-        {cards.map((card, index) => <PaperCard key={card.id} card={card} index={index} />)}
+        {entryCards.map((card, index) => <PaperCard key={card.id} card={card} index={index} />)}
       </section>
       <About />
       <Projects />
