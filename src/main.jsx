@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, Feather, Mail, NotebookPen, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import './styles.css';
+
+const asset = (name) => `${import.meta.env.BASE_URL}assets/${name}.webp`;
 
 const navItems = [
   { id: 'home', label: '首页', en: 'Home' },
@@ -13,42 +15,10 @@ const navItems = [
 ];
 
 const entryCards = [
-  {
-    id: 'about',
-    eyebrow: '01 / About Me',
-    title: '个人手札',
-    text: '关于我与创作的起点、方法和生活方式。',
-    action: 'Read more',
-    icon: Feather,
-    drift: 'card-a',
-  },
-  {
-    id: 'projects',
-    eyebrow: '02 / Projects',
-    title: '作品档案',
-    text: '精选作品与案例展示，探索想法落地的过程。',
-    action: 'View projects',
-    icon: Sparkles,
-    drift: 'card-b',
-  },
-  {
-    id: 'journal',
-    eyebrow: '03 / Journal',
-    title: '日常来信',
-    text: '记录灵感与思考的日常，文字、影像与随笔。',
-    action: 'Read journal',
-    icon: BookOpen,
-    drift: 'card-c',
-  },
-  {
-    id: 'contact',
-    eyebrow: '04 / Contact',
-    title: '寄出一封信',
-    text: '有想法或合作意向？期待与你交流。',
-    action: 'Say hello',
-    icon: Mail,
-    drift: 'card-d',
-  },
+  { id: 'about', image: 'card-about', alt: 'About Me paper card', drift: 'card-a' },
+  { id: 'projects', image: 'card-projects', alt: 'Projects paper card', drift: 'card-b' },
+  { id: 'journal', image: 'card-journal', alt: 'Journal paper card', drift: 'card-c' },
+  { id: 'contact', image: 'card-contact', alt: 'Contact paper card', drift: 'card-d' },
 ];
 
 const projects = [
@@ -109,6 +79,7 @@ function Header() {
 
   return (
     <header className="site-header">
+      <img className="header-frame asset-blend" src={asset('ornament-header')} alt="" aria-hidden="true" />
       <button className="brand" onClick={() => scrollToSection('home')} aria-label="Back to home">
         <span>LIEGG</span>
         <small>A Little Love Letter</small>
@@ -132,78 +103,66 @@ function Header() {
 function GoldOrnaments() {
   return (
     <div className="gold-ornaments" aria-hidden="true">
+      <img className="botanical-line asset-blend" src={asset('botanical-line-left')} alt="" />
+      <img className="postmark asset-blend" src={asset('postmark')} alt="" />
+      <img className="ticket-note asset-blend" src={asset('ticket-note')} alt="" />
+      <img className="petal petal-one asset-blend" src={asset('red-petal')} alt="" />
+      <img className="petal petal-two asset-blend" src={asset('red-petal')} alt="" />
       <span className="ornament o1" />
       <span className="ornament o2" />
-      <span className="ornament o3" />
-      <span className="cloud-line c1" />
-      <span className="cloud-line c2" />
     </div>
   );
 }
 
-function FlowerCluster() {
+function HeroArtwork() {
   return (
-    <div className="flower-cluster" aria-hidden="true">
-      <span className="petal p1" />
-      <span className="petal p2" />
-      <span className="petal p3" />
-      <span className="petal p4" />
-      <span className="petal p5" />
-      <span className="petal p6" />
-      <i className="stamen s1" />
-      <i className="stamen s2" />
-      <i className="stem" />
-      <i className="leaf l1" />
-      <i className="leaf l2" />
-    </div>
-  );
-}
-
-function EnvelopeStage() {
-  return (
-    <motion.div className="envelope-stage" initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}>
-      <motion.div className="letter-back" animate={{ y: [0, -7, 0] }} transition={{ duration: 8, repeat: Infinity }} />
-      <FlowerCluster />
-      <motion.div
-        className="ribbon"
-        animate={{ rotate: [-7, -9, -5, -7], y: [0, -3, 2, 0] }}
+    <motion.div className="hero-artwork" initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.img
+        className="hero-letter asset-blend"
+        src={asset('hero-letter-flower')}
+        alt="Vintage envelope with red flowers and letters"
+        animate={{ y: [0, -10, 0], rotate: [-1, 1, -1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.img
+        className="person-reader asset-blend"
+        src={asset('person-reader')}
+        alt="Miniature person reading on paper"
+        animate={{ y: [0, -5, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <motion.div className="envelope" whileHover={{ y: -8, rotate: -2 }}>
-        <div className="wax-seal">L</div>
-        <span className="stamp">A LITTLE<br />LOVE</span>
-        <span className="envelope-lines">for visitors<br />and little moments</span>
-      </motion.div>
-      <div className="petal-fall one" />
-      <div className="petal-fall two" />
-      <div className="mini-person person-reader" />
-      <div className="mini-person person-photo" />
+      <motion.img
+        className="person-photographer asset-blend"
+        src={asset('person-photographer')}
+        alt="Miniature photographer"
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.img
+        className="floating-petal asset-blend"
+        src={asset('red-petal')}
+        alt="Floating red petal"
+        animate={{ y: [0, 18, 0], rotate: [-12, 10, -12] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+      />
     </motion.div>
   );
 }
 
 function PaperCard({ card, index }) {
-  const Icon = card.icon;
-
   return (
-    <motion.article
-      className={`paper-card ${card.drift}`}
+    <motion.button
+      className={`paper-card image-card ${card.drift}`}
       initial={{ opacity: 0, y: 24, rotate: index % 2 ? 1 : -1 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.35 }}
       transition={{ delay: index * 0.08 }}
       whileHover={{ y: -12, rotate: 0 }}
       onClick={() => scrollToSection(card.id)}
+      aria-label={`Open ${card.id}`}
     >
-      <span className="pin" />
-      <Icon size={23} />
-      <small>{card.eyebrow}</small>
-      <h3>{card.title}</h3>
-      <p>{card.text}</p>
-      <button>
-        {card.action} <ArrowRight size={15} />
-      </button>
-    </motion.article>
+      <img className="asset-blend" src={asset(card.image)} alt={card.alt} />
+    </motion.button>
   );
 }
 
@@ -241,14 +200,15 @@ function Hero() {
           <button className="ghost" onClick={() => scrollToSection('contact')}>寄出一封信</button>
         </div>
       </div>
-      <EnvelopeStage />
+      <HeroArtwork />
     </section>
   );
 }
 
 function About() {
   return (
-    <section id="about" className="section about-section">
+    <section id="about" className="section about-section content-section">
+      <img className="section-paper paper-left asset-blend" src={asset('letter-sheet')} alt="" aria-hidden="true" />
       <SectionTitle number="01" eyebrow="About" title="像翻开一页私人手札">
         这里不是简历，而是一组关于创作方法、兴趣与日常观察的纸页。
       </SectionTitle>
@@ -265,7 +225,8 @@ function About() {
 
 function Projects() {
   return (
-    <section id="projects" className="section projects-section">
+    <section id="projects" className="section projects-section content-section">
+      <img className="paper-stack asset-blend" src={asset('paper-stack')} alt="" aria-hidden="true" />
       <SectionTitle number="02" eyebrow="Projects" title="作品像一叠旧信纸">
         每个项目都保留一点创作过程：想法、草图、实现和情绪。
       </SectionTitle>
@@ -293,7 +254,8 @@ function Projects() {
 
 function Journal() {
   return (
-    <section id="journal" className="section journal-section">
+    <section id="journal" className="section journal-section content-section">
+      <img className="journal-sprig asset-blend" src={asset('botanical-sprig')} alt="" aria-hidden="true" />
       <SectionTitle number="03" eyebrow="Journal" title="散落的日记纸页">
         记录灵感与生活的短句，像从信封里滑出的几张便笺。
       </SectionTitle>
@@ -315,11 +277,13 @@ function Contact() {
   const status = useMemo(() => sent ? '信已寄出，期待与你相遇。' : '写下你的想法，我会认真读完。', [sent]);
 
   return (
-    <section id="contact" className="section contact-section">
+    <section id="contact" className="section contact-section content-section">
+      <img className="contact-figure asset-blend" src={asset('person-contact')} alt="Miniature person reaching toward contact card" />
       <SectionTitle number="04" eyebrow="Contact" title="寄出一封信">
         {status}
       </SectionTitle>
       <div className="contact-card">
+        <img className="contact-seal asset-blend" src={asset('wax-seal')} alt="" aria-hidden="true" />
         <div>
           <small>Email</small>
           <b>hello@liegg.dev</b>
@@ -341,15 +305,18 @@ function VerticalNav() {
 
   return (
     <aside className="vertical-nav" aria-label="Section anchors">
-      {navItems.slice(1).map((item) => (
-        <button
-          key={item.id}
-          className={active === item.id ? 'active' : ''}
-          onClick={() => scrollToSection(item.id)}
-        >
-          {item.label}
-        </button>
-      ))}
+      <img className="side-frame asset-blend" src={asset('ornament-side')} alt="" aria-hidden="true" />
+      <div className="vertical-nav-items">
+        {navItems.slice(1).map((item) => (
+          <button
+            key={item.id}
+            className={active === item.id ? 'active' : ''}
+            onClick={() => scrollToSection(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
     </aside>
   );
 }
